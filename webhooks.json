@@ -1,0 +1,14 @@
+{
+  "sentry": [
+    {
+      "channel": "AWACS",
+      "url": "https://3i.chat/hooks/7cggzxfodtgsby3xxgq4bsw6oh"
+    }
+  ],
+  "qase": [
+    {
+      "channel": "test",
+      "url": "https://3i.chat/hooks/b8xxbax7i3gs3g3uyg44b3t8dy"
+    }
+  ]
+}
