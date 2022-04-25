@@ -2,6 +2,7 @@ package qase
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,18 +43,23 @@ func ReceiveWebhook(c *gin.Context) {
 					"fields": []gin.H{
 						{
 							"short": true,
-							"title": "cases_count",
+							"title": "Cases_count",
 							"value": payload.CasesCount,
 						},
 						{
 							"short": true,
-							"title": "description",
+							"title": "Description",
 							"value": payload.Description,
 						},
 						{
 							"short": true,
-							"title": "environment",
+							"title": "Environment",
 							"value": payload.Environment,
+						},
+						{
+							"short": true,
+							"title": "Link",
+							"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
 						},
 					},
 				},
@@ -89,8 +95,14 @@ func ReceiveWebhook(c *gin.Context) {
 							"value": payload.Blocked,
 						},
 						{
+							"short": true,
 							"title": "duration",
 							"value": payload.Duration / 1000,
+						},
+						{
+							"short": true,
+							"title": "Link",
+							"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
 						},
 					},
 				},

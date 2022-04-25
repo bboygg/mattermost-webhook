@@ -9,8 +9,11 @@ type BaseQaseTriggeredPayload struct {
 }
 
 type RunTestPayload struct {
-	ID          int    `json:"id"`
-	Plan        string `json:"plan"`
+	ID   int `json:"id"`
+	Plan struct {
+		ID    int    `json:"id"`
+		Title string `json:"title"`
+	}
 	Title       string `json:"title"`
 	CasesCount  int    `json:"cases_count"`
 	Description string `json:"description"`
@@ -26,10 +29,10 @@ type QaseTriggeredRunTestPayload struct {
 }
 
 type CompleteTestPayload struct {
-	ID       string `json:"id"`
-	Cases    uint8  `json:"cases"`
-	Failed   uint8  `json:"failed"`
-	Passed   uint8  `json:"passed"`
-	Blocked  uint8  `json:"blocked"`
-	Duration int32  `json:"duration"`
+	ID       int   `json:"id"`
+	Cases    uint8 `json:"cases"`
+	Failed   uint8 `json:"failed"`
+	Passed   uint8 `json:"passed"`
+	Blocked  uint8 `json:"blocked"`
+	Duration int32 `json:"duration"`
 }
