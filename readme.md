@@ -1,4 +1,4 @@
-# Mattermost Webhook for Qase
+# Mattermost Webhook Server
 
 ## How to Test
 
