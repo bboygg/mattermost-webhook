@@ -38,8 +38,8 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": "Qase Test Run Started ",
-					"text":  payload.Title,
+					"title": "Qase Test Run Started",
+					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", payload.Title, body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
 							"short": true,
@@ -56,11 +56,11 @@ func ReceiveWebhook(c *gin.Context) {
 							"title": "Environment",
 							"value": payload.Environment,
 						},
-						{
-							"short": true,
-							"title": "Link",
-							"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
-						},
+						// {
+						// 	"short": true,
+						// 	"title": "Link",
+						// 	"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
+						// },
 					},
 				},
 			},
@@ -72,7 +72,7 @@ func ReceiveWebhook(c *gin.Context) {
 			"attachments": []gin.H{
 				{
 					"title": "Qase Test Run Completed",
-
+					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", "See the Result", body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
 							"short": true,
@@ -99,11 +99,11 @@ func ReceiveWebhook(c *gin.Context) {
 							"title": "duration",
 							"value": payload.Duration / 1000,
 						},
-						{
-							"short": true,
-							"title": "Link",
-							"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
-						},
+						// {
+						// 	"short": true,
+						// 	"title": "Link",
+						// 	"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
+						// },
 					},
 				},
 			},
