@@ -51,6 +51,7 @@ func Qase(channel string, payload interface{}) {
 		}
 	}
 }
+
 func Read() {
 	if webhooks == nil {
 		rawJson, err := os.Open("./webhooks.json")

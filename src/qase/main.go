@@ -27,8 +27,29 @@ func ReceiveWebhook(c *gin.Context) {
 		return
 	}
 
+	var tester string
+	var memberId int8 = body.TeamMemberID
+	// George, DH, Juni, Dunkin, Sam, heejung
+	switch memberId {
+	case 1:
+		tester = "George"
+	case 2:
+		tester = "DH"
+	case 3:
+		tester = "Juni"
+	case 4:
+		tester = "Dunkin"
+	case 5:
+		tester = "Sam"
+	case 6:
+		tester = "Heejung"
+	default:
+		tester = "QA"
+	}
+
 	if body.EventName == "run.started" {
 		var payload RunTestPayload
+
 		if err := json.Unmarshal(raw, &payload); err != nil {
 			println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{})
@@ -38,7 +59,7 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": "Qase Test Run Started",
+					"title": fmt.Sprintf("Qase Test Run Started by %s", tester),
 					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", payload.Title, body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
@@ -71,7 +92,7 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": "Qase Test Run Completed",
+					"title": fmt.Sprintf("Qase Test Run Completed by %s", tester),
 					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", "See the Result", body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
