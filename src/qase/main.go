@@ -28,8 +28,9 @@ func ReceiveWebhook(c *gin.Context) {
 	}
 
 	var tester string
-	var memberId int8 = body.TeamMemberID
-	// George, DH, Juni, Dunkin, Sam, heejung
+	var memberId int8 = body.TeamMemberID // George, DH, Juni, Dunkin, Sam, heejung
+	var projectName string = body.ProjectCode
+
 	switch memberId {
 	case 1:
 		tester = "George"
@@ -47,6 +48,28 @@ func ReceiveWebhook(c *gin.Context) {
 		tester = "QA"
 	}
 
+	switch projectName {
+	case "PLUS":
+		projectName = "Pivo+"
+	case "PIVOLIVE":
+		projectName = "Pivo Live"
+	case "PIVOTOUR":
+		projectName = "Pivo Tour"
+	case "PLAY":
+		projectName = "Pivo Play"
+	case "CAST":
+		projectName = "Pivo Cast"
+	case "PRESENT":
+		projectName = "Pivo Present"
+	case "STUDIO":
+		projectName = "Pivo Studio"
+	case "BP":
+		projectName = "Beamo Portal"
+	case "BA":
+		projectName = "Beamo App"
+	default:
+	}
+
 	if body.EventName == "run.started" {
 		var payload RunTestPayload
 
@@ -59,7 +82,7 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": fmt.Sprintf("Qase Test Run Started by %s", tester),
+					"title": fmt.Sprintf("%s Test Run Started by %s", projectName, tester),
 					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", payload.Title, body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
@@ -92,7 +115,7 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": fmt.Sprintf("Qase Test Run Completed by %s", tester),
+					"title": fmt.Sprintf("%s Test Run Started by %s", projectName, tester),
 					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", "See the Result", body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
