@@ -115,7 +115,7 @@ func ReceiveWebhook(c *gin.Context) {
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
-					"title": fmt.Sprintf("%s Test Run Started by %s", projectName, tester),
+					"title": fmt.Sprintf("%s Test Run Completed by %s", projectName, tester),
 					"text":  fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", "See the Result", body.ProjectCode, payload.ID),
 					"fields": []gin.H{
 						{
