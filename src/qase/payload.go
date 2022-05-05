@@ -34,5 +34,5 @@ type CompleteTestPayload struct {
 	Failed   uint8 `json:"failed"`
 	Passed   uint8 `json:"passed"`
 	Blocked  uint8 `json:"blocked"`
-	Duration int32 `json:"duration"`
+	Duration int64 `json:"duration"`
 }
