@@ -27,9 +27,9 @@ func ReceiveWebhook(c *gin.Context) {
 		return
 	}
 
+	//Declaration QA member's name for displaying test runners name at title
 	var tester string
 	var memberId int8 = body.TeamMemberID // George, DH, Juni, Dunkin, Sam, heejung
-	var projectName string = body.ProjectCode
 
 	switch memberId {
 	case 1:
@@ -48,6 +48,8 @@ func ReceiveWebhook(c *gin.Context) {
 		tester = "QA"
 	}
 
+	//Declaratino project name for display project name at title
+	var projectName string = body.ProjectCode
 	switch projectName {
 	case "PLUS":
 		projectName = "Pivo+"
@@ -69,6 +71,16 @@ func ReceiveWebhook(c *gin.Context) {
 		projectName = "Beamo App"
 	default:
 	}
+
+	//Convert test duration from milliseconds to HH:MM:SS format for better readability
+	func secondsToMinute(inSeconds int) string {
+		minutes := inSeconds / 60
+		seconds := inSeconds % 60
+		str := fmt.Sprintf("d:d", minutes, seconds)
+		return str
+	}
+
+
 
 	if body.EventName == "run.started" {
 		var payload RunTestPayload
@@ -141,7 +153,7 @@ func ReceiveWebhook(c *gin.Context) {
 						{
 							"short": true,
 							"title": "duration",
-							"value": payload.Duration / 1000,
+							"value": secondsToMinutes(payload.Duration / 1000),
 						},
 						// {
 						// 	"short": true,
