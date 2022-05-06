@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mitchellh/mapstructure"
@@ -72,16 +73,6 @@ func ReceiveWebhook(c *gin.Context) {
 	default:
 	}
 
-	//Convert test duration from milliseconds to HH:MM:SS format for better readability
-	func secondsToMinute(inSeconds int) string {
-		minutes := inSeconds / 60
-		seconds := inSeconds % 60
-		str := fmt.Sprintf("d:d", minutes, seconds)
-		return str
-	}
-
-
-
 	if body.EventName == "run.started" {
 		var payload RunTestPayload
 
@@ -112,11 +103,6 @@ func ReceiveWebhook(c *gin.Context) {
 							"title": "Environment",
 							"value": payload.Environment,
 						},
-						// {
-						// 	"short": true,
-						// 	"title": "Link",
-						// 	"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
-						// },
 					},
 				},
 			},
@@ -124,6 +110,14 @@ func ReceiveWebhook(c *gin.Context) {
 	} else if body.EventName == "run.completed" {
 		var payload CompleteTestPayload
 		mapstructure.Decode(body.Payload, &payload)
+
+		//Convert ms to Human readable format
+		var ms = payload.Duration / 1000
+		var sec = ms % 60
+		var min = (ms / 60) % 60
+		var hr = (ms / 60 / 60) % 24
+		var duration = strconv.Itoa(hr) + "h " + strconv.Itoa(min) + "m " + strconv.Itoa(sec) + "s"
+
 		request.Qase(channel, gin.H{
 			"attachments": []gin.H{
 				{
@@ -153,13 +147,8 @@ func ReceiveWebhook(c *gin.Context) {
 						{
 							"short": true,
 							"title": "duration",
-							"value": secondsToMinutes(payload.Duration / 1000),
+							"value": duration,
 						},
-						// {
-						// 	"short": true,
-						// 	"title": "Link",
-						// 	"value": fmt.Sprintf("[%s](https://app.qase.io/run/%s/dashboard/%d)", body.ProjectCode, body.ProjectCode, payload.ID),
-						// },
 					},
 				},
 			},
