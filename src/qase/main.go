@@ -87,7 +87,7 @@ func ReceiveWebhook(c *gin.Context) {
 					"fields": []gin.H{
 						{
 							"short": true,
-							"title": "Cases_count",
+							"title": "Cases Count",
 							"value": payload.CasesCount,
 						},
 						{
